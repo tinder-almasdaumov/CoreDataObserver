@@ -18,6 +18,7 @@ class ViewController: UIViewController {
     var deletesObserver: AnyObject?
     var insertsObserver: AnyObject?
     var updatesObserver: AnyObject?
+    var allChangesObserver: AnyObject?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +28,7 @@ class ViewController: UIViewController {
 
     @objc
     func startNotificationExperiment() {
-        fetchedResultsController = nil
+        fetchedResultsController = nil  
 
         deletesObserver = CoreDataInteractor.shared.observeDeletes(type: Rec.self) { recs in
             //            print("deletion: \(recs)")
@@ -38,6 +39,10 @@ class ViewController: UIViewController {
         }
 
         updatesObserver = CoreDataInteractor.shared.observeUpdates(type: Rec.self) { recs in
+            //            print("updates: \(recs)")
+        }
+
+        allChangesObserver = CoreDataInteractor.shared.observeAllChanges(type: Rec.self) { recs in
             //            print("updates: \(recs)")
         }
 

@@ -15,27 +15,9 @@ final class CoreDataInteractor {
     private var deletesObservers: [WeakBox<ChangesObserver>] = []
     private var updatesObservers: [WeakBox<ChangesObserver>] = []
     private var insertsObservers: [WeakBox<ChangesObserver>] = []
+    private var allChangesObservers: [WeakBox<ChangesObserver>] = []
 
-    public func observeDeletes(type: NSManagedObject.Type,
-                               closure: @escaping ([NSManagedObject]) -> Void) -> ChangesObserver {
-        let observer = ChangesObserver(type: type, closure: closure)
-        deletesObservers.append(WeakBox(observer))
-        return observer
-    }
-
-    public func observeInserts(type: NSManagedObject.Type,
-                               closure: @escaping ([NSManagedObject]) -> Void) -> ChangesObserver {
-        let observer = ChangesObserver(type: type, closure: closure)
-        insertsObservers.append(WeakBox(observer))
-        return observer
-    }
-
-    public func observeUpdates(type: NSManagedObject.Type,
-                               closure: @escaping ([NSManagedObject]) -> Void) -> ChangesObserver {
-        let observer = ChangesObserver(type: type, closure: closure)
-        updatesObservers.append(WeakBox(observer))
-        return observer
-    }
+    typealias ObserverClosure = ([NSManagedObject]) -> Void
 
     init() {
         NotificationCenter.default.addObserver(self,
@@ -59,33 +41,78 @@ final class CoreDataInteractor {
     }
 
     func saveContext () {
-        let context = persistentContainer.viewContext
-        if context.hasChanges {
-            do {
-                try context.save()
-            } catch {
-                let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-            }
+        guard context.hasChanges else { return }
+        do {
+            try context.save()
+        } catch {
+            let nserror = error as NSError
+            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
         }
     }
 
 }
 
 extension CoreDataInteractor {
+    func observeDeletes(type: NSManagedObject.Type,
+                        closure: @escaping ObserverClosure) -> ChangesObserver {
+        let observer = ChangesObserver(type: type, closure: closure)
+        deletesObservers.append(WeakBox(observer))
+        return observer
+    }
+
+    func observeInserts(type: NSManagedObject.Type,
+                        closure: @escaping ObserverClosure) -> ChangesObserver {
+        let observer = ChangesObserver(type: type, closure: closure)
+        insertsObservers.append(WeakBox(observer))
+        return observer
+    }
+
+    func observeUpdates(type: NSManagedObject.Type,
+                        closure: @escaping ObserverClosure) -> ChangesObserver {
+        let observer = ChangesObserver(type: type, closure: closure)
+        updatesObservers.append(WeakBox(observer))
+        return observer
+    }
+
+    func observeAllChanges(type: NSManagedObject.Type,
+                           closure: @escaping ObserverClosure) -> ChangesObserver {
+        let observer = ChangesObserver(type: type, closure: closure)
+        allChangesObservers.append(WeakBox(observer))
+        return observer
+    }
+}
+
+extension CoreDataInteractor {
+
+    private struct Changes {
+        var deletes: Set<NSManagedObject> = []
+        var inserts: Set<NSManagedObject> = []
+        var updates: Set<NSManagedObject> = []
+
+        init(userInfo: [AnyHashable: Any]) {
+            if let deletes = userInfo[NSDeletedObjectsKey] as? Set<NSManagedObject>, !deletes.isEmpty {
+                self.deletes = deletes
+            }
+
+            if let inserts = userInfo[NSInsertedObjectsKey] as? Set<NSManagedObject>, !inserts.isEmpty {
+                self.inserts = inserts
+            }
+
+            if let updates = userInfo[NSUpdatedObjectsKey] as? Set<NSManagedObject>, !updates.isEmpty {
+                self.updates = updates
+            }
+        }
+    }
+
     @objc
     private func managedObjectContextObjectsDidChange(notification: Notification) {
-        if let deletes = notification.userInfo?[NSDeletedObjectsKey] as? Set<NSManagedObject>, !deletes.isEmpty {
-            process(deletes: deletes)
-        }
+        guard let userInfo = notification.userInfo else { return }
 
-        if let inserts = notification.userInfo?[NSInsertedObjectsKey] as? Set<NSManagedObject>, !inserts.isEmpty {
-            process(inserts: inserts)
-        }
-
-        if let updates = notification.userInfo?[NSUpdatedObjectsKey] as? Set<NSManagedObject>, !updates.isEmpty {
-            process(updates: updates)
-        }
+        let changes = Changes(userInfo: userInfo)
+        process(deletes: changes.deletes)
+        process(inserts: changes.inserts)
+        process(updates: changes.updates)
+        process(allChanges: changes)
     }
 
     private func process(deletes: Set<NSManagedObject>) {
@@ -100,16 +127,20 @@ extension CoreDataInteractor {
         process(changes: updates, observers: updatesObservers)
     }
 
+    private func process(allChanges: Changes) {
+        let changes = allChanges.deletes
+            .union(allChanges.inserts)
+            .union(allChanges.updates)
+        process(changes: changes, observers: allChangesObservers)
+    }
+
     private func process(changes: Set<NSManagedObject>, observers: [WeakBox<ChangesObserver>]) {
         let changedTypes = uniqueTypes(in: changes)
         let registeredTypes = uniqueRegisteredTypes(for: observers)
 
-        for registeredType in registeredTypes {
-            guard changedTypes.contains(where: { changedType in changedType == registeredType }) else { continue }
-
+        registeredTypes.forEach { registeredType in
+            guard changedTypes.contains(type: registeredType) else { return }
             let typedChangedObjects = cast(changes: changes, as: registeredType)
-
-            // notify observers
             let typedObservers = observers.compactMap { $0.object }.filter { $0.type == registeredType }
             typedObservers.forEach { $0.closure(typedChangedObjects) }
         }
@@ -135,6 +166,7 @@ extension CoreDataInteractor {
                 uniqueRegisteredTypes.append(type)
             }
         }
+
         return uniqueRegisteredTypes
     }
 
@@ -142,6 +174,12 @@ extension CoreDataInteractor {
         return changes.compactMap { $0 as? T }
     }
 
+}
+
+extension Collection where Iterator.Element == NSManagedObject.Type {
+    func contains(type: NSManagedObject.Type) -> Bool {
+        return contains(where: { myType in myType == type })
+    }
 }
 
 public final class ChangesObserver {
