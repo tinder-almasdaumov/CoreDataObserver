@@ -28,7 +28,7 @@ class ViewController: UIViewController {
 
     @objc
     func startNotificationExperiment() {
-        fetchedResultsController = nil  
+        fetchedResultsController = nil
 
         deletesObserver = CoreDataInteractor.shared.observeDeletes(type: Rec.self) { recs in
             //            print("deletion: \(recs)")
@@ -42,10 +42,21 @@ class ViewController: UIViewController {
             //            print("updates: \(recs)")
         }
 
-        allChangesObserver = CoreDataInteractor.shared.observeAllChanges(type: Rec.self) { recs in
-            //            print("updates: \(recs)")
-        }
+        allChangesObserver = CoreDataInteractor.shared.observeAllChanges(type: Rec.self, closure: { changes in
+//            print(changes.deletes)
+//            print(changes.inserts)
+//            print(changes.updates)
+        })
 
+        final class ChangesObserver {
+            private(set) var type: NSManagedObject.Type
+            private(set) var closure: ([NSManagedObject]) -> Void
+
+            public init(type: NSManagedObject.Type, closure: @escaping ([NSManagedObject]) -> Void) {
+                self.type = type
+                self.closure = closure
+            }
+        }
         let start = CFAbsoluteTimeGetCurrent()
         addEntities(count: 20000)
         deleteAll()

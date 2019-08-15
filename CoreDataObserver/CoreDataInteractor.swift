@@ -15,9 +15,11 @@ final class CoreDataInteractor {
     private var deletesObservers: [WeakBox<ChangesObserver>] = []
     private var updatesObservers: [WeakBox<ChangesObserver>] = []
     private var insertsObservers: [WeakBox<ChangesObserver>] = []
-    private var allChangesObservers: [WeakBox<ChangesObserver>] = []
+    private var allChangesObservers: [WeakBox<AllChangesObserver>] = []
 
     typealias ObserverClosure = ([NSManagedObject]) -> Void
+    typealias AllChanges = (deletes: [NSManagedObject], inserts: [NSManagedObject], updates: [NSManagedObject])
+    typealias AllChangesObserverClosure = (AllChanges) -> Void
 
     init() {
         NotificationCenter.default.addObserver(self,
@@ -75,8 +77,8 @@ extension CoreDataInteractor {
     }
 
     func observeAllChanges(type: NSManagedObject.Type,
-                           closure: @escaping ObserverClosure) -> ChangesObserver {
-        let observer = ChangesObserver(type: type, closure: closure)
+                           closure: @escaping AllChangesObserverClosure) -> AllChangesObserver {
+        let observer = AllChangesObserver(type: type, closure: closure)
         allChangesObservers.append(WeakBox(observer))
         return observer
     }
@@ -109,41 +111,76 @@ extension CoreDataInteractor {
         guard let userInfo = notification.userInfo else { return }
 
         let changes = Changes(userInfo: userInfo)
-        process(deletes: changes.deletes)
-        process(inserts: changes.inserts)
-        process(updates: changes.updates)
-        process(allChanges: changes)
+//        process(deletes: changes.deletes)
+//        process(inserts: changes.inserts)
+//        process(updates: changes.updates)
+//        process(changes: changes)
+        process(changes: changes)
     }
+//
+//    private func process(deletes: Set<NSManagedObject>) {
+//        process(changes: deletes, observers: deletesObservers)
+//    }
+//
+//    private func process(inserts: Set<NSManagedObject>) {
+//        process(changes: inserts, observers: insertsObservers)
+//    }
+//
+//    private func process(updates: Set<NSManagedObject>) {
+//        process(changes: updates, observers: updatesObservers)
+//    }
 
-    private func process(deletes: Set<NSManagedObject>) {
-        process(changes: deletes, observers: deletesObservers)
-    }
+    private func process(changes: Changes) {
+        let observedTypes = allUniqueRegisteredTypes()
 
-    private func process(inserts: Set<NSManagedObject>) {
-        process(changes: inserts, observers: insertsObservers)
-    }
+        observedTypes.forEach { observedType in
 
-    private func process(updates: Set<NSManagedObject>) {
-        process(changes: updates, observers: updatesObservers)
-    }
+            // DELETES
+            let typedDeletedObjects = cast(changes: changes.deletes, as: observedType)
+            let typedDeleteObservers = deletesObservers.compactMap { $0.object }.filter { $0.type == observedType }
+            typedDeleteObservers.forEach { $0.closure(typedDeletedObjects) }
 
-    private func process(allChanges: Changes) {
-        let changes = allChanges.deletes
-            .union(allChanges.inserts)
-            .union(allChanges.updates)
-        process(changes: changes, observers: allChangesObservers)
-    }
+            // INSERTS
+            let typedInsertedObjects = cast(changes: changes.inserts, as: observedType)
+            let typedInsertObservers = insertsObservers.compactMap { $0.object }.filter { $0.type == observedType }
+            typedInsertObservers.forEach { $0.closure(typedInsertedObjects) }
 
-    private func process(changes: Set<NSManagedObject>, observers: [WeakBox<ChangesObserver>]) {
-        let changedTypes = uniqueTypes(in: changes)
-        let registeredTypes = uniqueRegisteredTypes(for: observers)
+            // UPDATES
+            let typedUpdatedObjects = cast(changes: changes.updates, as: observedType)
+            let typedUpdateObservers = updatesObservers.compactMap { $0.object }.filter { $0.type == observedType }
+            typedUpdateObservers.forEach { $0.closure(typedUpdatedObjects) }
 
-        registeredTypes.forEach { registeredType in
-            guard changedTypes.contains(type: registeredType) else { return }
-            let typedChangedObjects = cast(changes: changes, as: registeredType)
-            let typedObservers = observers.compactMap { $0.object }.filter { $0.type == registeredType }
-            typedObservers.forEach { $0.closure(typedChangedObjects) }
+            // ALL CHANGES
+            let typedAllChangesObservers = allChangeObservers(for: observedType)
+            guard !typedAllChangesObservers.isEmpty else { return }
+            typedAllChangesObservers.forEach { $0.closure((typedDeletedObjects,
+                                                           typedInsertedObjects,
+                                                           typedUpdatedObjects)) }
         }
+    }
+
+    private func allChangeObservers(for type: NSManagedObject.Type) -> [AllChangesObserver] {
+        return allChangesObservers.compactMap { $0.object }.filter { $0.type == type }
+    }
+
+//    private func process(changes: Set<NSManagedObject>, observers: [WeakBox<ChangesObserver>]) {
+//        let changedTypes = uniqueTypes(in: changes)
+//        let registeredTypes = uniqueRegisteredTypes(for: observers)
+//
+//        registeredTypes.forEach { registeredType in
+//            guard changedTypes.contains(type: registeredType) else { return }
+//            let typedChangedObjects = cast(changes: changes, as: registeredType)
+//            let typedObservers = observers.compactMap { $0.object }.filter { $0.type == registeredType }
+//            typedObservers.forEach { $0.closure(typedChangedObjects) }
+//        }
+//    }
+
+    private func allUniqueRegisteredTypes() -> [NSManagedObject.Type] {
+        var allObservers: [WeakBox<ChangesObserver>] = []
+        allObservers.append(contentsOf: deletesObservers)
+        allObservers.append(contentsOf: insertsObservers)
+        allObservers.append(contentsOf: updatesObservers)
+        return uniqueRegisteredTypes(for: allObservers)
     }
 
     private func uniqueTypes(in changes: Set<NSManagedObject>) -> [NSManagedObject.Type] {
@@ -182,13 +219,25 @@ extension Collection where Iterator.Element == NSManagedObject.Type {
     }
 }
 
-public final class ChangesObserver {
-    private(set) var type: NSManagedObject.Type
-    private(set) var closure: ([NSManagedObject]) -> Void
+extension CoreDataInteractor {
+    final class ChangesObserver {
+        private(set) var type: NSManagedObject.Type
+        private(set) var closure: ObserverClosure
 
-    public init(type: NSManagedObject.Type, closure: @escaping ([NSManagedObject]) -> Void) {
-        self.type = type
-        self.closure = closure
+        public init(type: NSManagedObject.Type, closure: @escaping ObserverClosure) {
+            self.type = type
+            self.closure = closure
+        }
+    }
+
+    final class AllChangesObserver {
+        private(set) var type: NSManagedObject.Type
+        private(set) var closure: AllChangesObserverClosure
+
+        public init(type: NSManagedObject.Type, closure: @escaping AllChangesObserverClosure) {
+            self.type = type
+            self.closure = closure
+        }
     }
 }
 
