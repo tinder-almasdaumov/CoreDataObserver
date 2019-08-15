@@ -15,6 +15,7 @@
 		4F06917523038B580091A4B0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F06917323038B580091A4B0 /* LaunchScreen.storyboard */; };
 		4F06918123038C2A0091A4B0 /* CoreDataInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F06918023038C2A0091A4B0 /* CoreDataInteractor.swift */; };
 		4F16AB372304FCAE009F784F /* CoreDataObserverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F16AB362304FCAE009F784F /* CoreDataObserverTests.swift */; };
+		4F16AB3F2305D0DF009F784F /* TestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F16AB3E2305D0DF009F784F /* TestsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 		4F16AB342304FCAE009F784F /* CoreDataObserverTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoreDataObserverTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F16AB362304FCAE009F784F /* CoreDataObserverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataObserverTests.swift; sourceTree = "<group>"; };
 		4F16AB382304FCAE009F784F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4F16AB3E2305D0DF009F784F /* TestsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +85,7 @@
 			children = (
 				4F06916723038B570091A4B0 /* AppDelegate.swift */,
 				4F06916923038B570091A4B0 /* ViewController.swift */,
+				4F16AB3E2305D0DF009F784F /* TestsViewController.swift */,
 				4F06916B23038B570091A4B0 /* Main.storyboard */,
 				4F06917123038B580091A4B0 /* Assets.xcassets */,
 				4F06917323038B580091A4B0 /* LaunchScreen.storyboard */,
@@ -205,6 +208,7 @@
 			files = (
 				4F06916A23038B570091A4B0 /* ViewController.swift in Sources */,
 				4F06916823038B570091A4B0 /* AppDelegate.swift in Sources */,
+				4F16AB3F2305D0DF009F784F /* TestsViewController.swift in Sources */,
 				4F06918123038C2A0091A4B0 /* CoreDataInteractor.swift in Sources */,
 				4F06917023038B570091A4B0 /* CoreDataObserver.xcdatamodeld in Sources */,
 			);

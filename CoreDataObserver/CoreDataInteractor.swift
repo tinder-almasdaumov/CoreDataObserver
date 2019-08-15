@@ -147,11 +147,13 @@ extension CoreDataInteractor {
             }
 
             // ALL CHANGES
-            let typedAllChangesObservers = allChangeObservers(for: observedType)
-            guard !typedAllChangesObservers.isEmpty else { return }
-            typedAllChangesObservers.forEach { $0.closure((typedDeletedObjects,
-                                                           typedInsertedObjects,
-                                                           typedUpdatedObjects)) }
+            if !typedDeletedObjects.isEmpty || !typedInsertedObjects.isEmpty || !typedUpdatedObjects.isEmpty {
+                let typedAllChangesObservers = allChangeObservers(for: observedType)
+                guard !typedAllChangesObservers.isEmpty else { return }
+                typedAllChangesObservers.forEach { $0.closure((typedDeletedObjects,
+                                                               typedInsertedObjects,
+                                                               typedUpdatedObjects)) }
+            }
         }
     }
 
@@ -192,7 +194,18 @@ extension CoreDataInteractor {
     }
 
     private func cast<T: NSManagedObject>(changes: Set<NSManagedObject>, as type: T.Type) -> [T] {
-        return changes.compactMap { $0 as? T }
+        // Some ugly code right here
+        // This doesn't work unfortunately:
+        // return changes.compactMap { $0 as? T }
+
+        var objects: [T] = []
+        for item in changes {
+            if item.entity.name == type.entity().name, let t = item as? T {
+                objects.append(t)
+            }
+        }
+
+        return objects
     }
 
 }

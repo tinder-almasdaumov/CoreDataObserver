@@ -1,24 +1,137 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Sh3-Hf-JlQ">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Experiments-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="CoreDataObserver" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KNm-tf-B0C">
+                                <rect key="frame" x="8" y="805" width="398" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NS7-rV-edR">
+                                <rect key="frame" x="20" y="92" width="188" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Run notification experiment"/>
+                                <connections>
+                                    <action selector="startNotificationExperiment" destination="BYZ-38-t0r" eventType="touchUpInside" id="f3P-Ry-aod"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gST-oa-W33">
+                                <rect key="frame" x="20" y="130" width="306" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Run NSFetchedResultsController experiment"/>
+                                <connections>
+                                    <action selector="startFetchedResultsExperiment" destination="BYZ-38-t0r" eventType="touchUpInside" id="PUT-ab-LHb"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HVh-VQ-Ybz">
+                                <rect key="frame" x="20" y="168" width="97" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Delete all recs"/>
+                                <connections>
+                                    <action selector="deleteAllRecs" destination="BYZ-38-t0r" eventType="touchUpInside" id="gwj-nU-laR"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="KNm-tf-B0C" secondAttribute="bottom" constant="8" id="7om-SA-h09"/>
+                            <constraint firstItem="KNm-tf-B0C" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="8" id="8kH-Nu-t3m"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="KNm-tf-B0C" secondAttribute="trailing" constant="8" id="cNo-2J-Q8J"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Experiments" id="eAc-4V-Xca"/>
+                    <connections>
+                        <outlet property="statusLabel" destination="KNm-tf-B0C" id="gnC-cJ-yp9"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="570" y="-635"/>
+        </scene>
+        <!--Tests-->
+        <scene sceneID="ITK-y6-aeL">
+            <objects>
+                <viewController id="901-ne-CN2" customClass="TestsViewController" customModule="CoreDataObserver" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Tdb-6U-LFd">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Cu-19-63H">
+                                <rect key="frame" x="8" y="110" width="62" height="30"/>
+                                <state key="normal" title="Add user"/>
+                                <connections>
+                                    <action selector="addUsers" destination="901-ne-CN2" eventType="touchUpInside" id="FfY-kh-pns"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qgW-80-SGz">
+                                <rect key="frame" x="8" y="160" width="54" height="30"/>
+                                <state key="normal" title="Add rec"/>
+                                <connections>
+                                    <action selector="addRecs" destination="901-ne-CN2" eventType="touchUpInside" id="9Sr-CB-aEv"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jKi-Ym-Mo0">
+                                <rect key="frame" x="8" y="784.5" width="398" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="2eN-uM-M7x" firstAttribute="trailing" secondItem="jKi-Ym-Mo0" secondAttribute="trailing" constant="8" id="7Og-sK-1iN"/>
+                            <constraint firstItem="jKi-Ym-Mo0" firstAttribute="leading" secondItem="2eN-uM-M7x" secondAttribute="leading" constant="8" id="7r8-XH-L1r"/>
+                            <constraint firstItem="0Cu-19-63H" firstAttribute="leading" secondItem="2eN-uM-M7x" secondAttribute="leading" constant="8" id="PPL-iD-TAx"/>
+                            <constraint firstItem="0Cu-19-63H" firstAttribute="top" secondItem="2eN-uM-M7x" secondAttribute="top" constant="66" id="oQS-dg-ES9"/>
+                            <constraint firstItem="qgW-80-SGz" firstAttribute="top" secondItem="0Cu-19-63H" secondAttribute="bottom" constant="20" id="sRl-tM-cpI"/>
+                            <constraint firstItem="qgW-80-SGz" firstAttribute="leading" secondItem="2eN-uM-M7x" secondAttribute="leading" constant="8" id="wWA-it-0OC"/>
+                            <constraint firstItem="2eN-uM-M7x" firstAttribute="bottom" secondItem="jKi-Ym-Mo0" secondAttribute="bottom" constant="8" id="wZ6-MU-Lno"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="2eN-uM-M7x"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Tests" id="WZb-KR-JHe"/>
+                    <connections>
+                        <outlet property="label" destination="jKi-Ym-Mo0" id="M1J-XZ-agR"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cDu-0s-5h4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="570" y="164"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="lHb-am-yCR">
+            <objects>
+                <tabBarController id="Sh3-Hf-JlQ" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="hoc-bT-6TQ">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="6Bd-rr-2sj"/>
+                        <segue destination="901-ne-CN2" kind="relationship" relationship="viewControllers" id="3Q3-VG-s52"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PN6-iv-Xw9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-349" y="-160"/>
         </scene>
     </scenes>
 </document>

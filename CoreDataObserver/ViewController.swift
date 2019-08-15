@@ -22,63 +22,50 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        addNotificationExperimentButton()
-        addFetchedResultsControllerExperimentButton()
+        deleteAllRecs()
     }
 
-    @objc
+    @IBOutlet var statusLabel: UILabel!
+    private let insertsCount = 10000
+
+    @IBAction
     func startNotificationExperiment() {
         fetchedResultsController = nil
 
-//        deletesObserver = CoreDataInteractor.shared.observeDeletes(type: Rec.self) { recs in
-//            //            print("deletion: \(recs)")
-//        }
-//
-//        insertsObserver = CoreDataInteractor.shared.observeInserts(type: Rec.self) { recs in
-//            //            print("insertion: \(recs)")
-//        }
-//
-//        updatesObserver = CoreDataInteractor.shared.observeUpdates(type: Rec.self) { recs in
-//            //            print("updates: \(recs)")
-//        }
-
         allChangesObserver = CoreDataInteractor.shared.observeAllChanges(type: Rec.self, closure: { changes in
-            //            print(changes.deletes)
-            //            print(changes.inserts)
-            //            print(changes.updates)
+
         })
 
-        final class ChangesObserver {
-            private(set) var type: NSManagedObject.Type
-            private(set) var closure: ([NSManagedObject]) -> Void
-
-            public init(type: NSManagedObject.Type, closure: @escaping ([NSManagedObject]) -> Void) {
-                self.type = type
-                self.closure = closure
-            }
-        }
         let start = CFAbsoluteTimeGetCurrent()
-        addEntities(count: 10000)
-        deleteAll()
+        addRecs(count: insertsCount)
 
         let diff = CFAbsoluteTimeGetCurrent() - start
-        print("Notifcation observer took \(diff) seconds")
+        let status = "Notifcation observer took \(diff) seconds"
+        print(status)
+        statusLabel.text = status
+
+        fetchCount()
     }
 
-    @objc
+    @IBAction
     func startFetchedResultsExperiment() {
         configureFetchResultsController()
 
         deletesObserver = nil
         insertsObserver = nil
         updatesObserver = nil
+        allChangesObserver = nil
 
         let start = CFAbsoluteTimeGetCurrent()
-        addEntities(count: 10000)
-        deleteAll()
+        addRecs(count: insertsCount)
 
         let diff = CFAbsoluteTimeGetCurrent() - start
-        print("NSFetchedResultsController took \(diff) seconds")
+
+        let status = "NSFetchedResultsController took \(diff) seconds"
+        print(status)
+        statusLabel.text = status
+
+        fetchCount()
     }
 }
 
@@ -97,9 +84,9 @@ extension ViewController {
     }
 }
 
-extension ViewController {
-    func addEntities(count: Int) {
-        for i in 0...count {
+private extension ViewController {
+    func addRecs(count: Int) {
+        for i in 0..<count {
             let rec = Rec(context: context)
             rec.first = "\(i) " + UUID().uuidString
             rec.last = "\(i) " + UUID().uuidString
@@ -109,15 +96,15 @@ extension ViewController {
         try? context.save()
     }
 
-    func fetchAll() {
+    func fetchCount() {
         let request: NSFetchRequest<Rec> = Rec.fetchRequest()
-
-        if let result = try? context.fetch(request) {
-            result.forEach { print($0.first! + $0.last! + $0.title! ) }
+        if let count = try? context.count(for: request) {
+            statusLabel.text = (statusLabel.text ?? "") + "\nRecs count: \(count)"
         }
     }
 
-    func deleteAll() {
+    @IBAction
+    func deleteAllRecs() {
         let request: NSFetchRequest<Rec> = Rec.fetchRequest()
 
         if let result = try? context.fetch(request) {
@@ -128,39 +115,12 @@ extension ViewController {
     }
 }
 
-// Buttons
-extension ViewController {
-    func addNotificationExperimentButton() {
-        let button = UIButton(type: .system)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Run notification experiment", for: .normal)
-        view.addSubview(button)
-
-        button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50).isActive = true
-        button.topAnchor.constraint(equalTo: view.topAnchor, constant: 250).isActive = true
-
-        button.addTarget(self, action: #selector(startNotificationExperiment), for: .touchUpInside)
-    }
-
-    func addFetchedResultsControllerExperimentButton() {
-        let button = UIButton(type: .system)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Run NSFetchedResultsController experiment", for: .normal)
-        view.addSubview(button)
-
-        button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50).isActive = true
-        button.topAnchor.constraint(equalTo: view.topAnchor, constant: 200).isActive = true
-
-        button.addTarget(self, action: #selector(startFetchedResultsExperiment), for: .touchUpInside)
-    }
-}
-
 extension ViewController: NSFetchedResultsControllerDelegate {
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
                     didChange sectionInfo: NSFetchedResultsSectionInfo,
                     atSectionIndex sectionIndex: Int,
                     for type: NSFetchedResultsChangeType) {
-        print("did change section")
+//        print("did change section")
     }
 
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
