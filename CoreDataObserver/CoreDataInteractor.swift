@@ -111,24 +111,8 @@ extension CoreDataInteractor {
         guard let userInfo = notification.userInfo else { return }
 
         let changes = Changes(userInfo: userInfo)
-//        process(deletes: changes.deletes)
-//        process(inserts: changes.inserts)
-//        process(updates: changes.updates)
-//        process(changes: changes)
         process(changes: changes)
     }
-//
-//    private func process(deletes: Set<NSManagedObject>) {
-//        process(changes: deletes, observers: deletesObservers)
-//    }
-//
-//    private func process(inserts: Set<NSManagedObject>) {
-//        process(changes: inserts, observers: insertsObservers)
-//    }
-//
-//    private func process(updates: Set<NSManagedObject>) {
-//        process(changes: updates, observers: updatesObservers)
-//    }
 
     private func process(changes: Changes) {
         let observedTypes = allUniqueRegisteredTypes()
@@ -137,18 +121,30 @@ extension CoreDataInteractor {
 
             // DELETES
             let typedDeletedObjects = cast(changes: changes.deletes, as: observedType)
-            let typedDeleteObservers = deletesObservers.compactMap { $0.object }.filter { $0.type == observedType }
-            typedDeleteObservers.forEach { $0.closure(typedDeletedObjects) }
+            if !typedDeletedObjects.isEmpty {
+                let typedDeleteObservers = deletesObservers
+                    .compactMap { $0.object }
+                    .filter { $0.type == observedType }
+                typedDeleteObservers.forEach { $0.closure(typedDeletedObjects) }
+            }
 
             // INSERTS
             let typedInsertedObjects = cast(changes: changes.inserts, as: observedType)
-            let typedInsertObservers = insertsObservers.compactMap { $0.object }.filter { $0.type == observedType }
-            typedInsertObservers.forEach { $0.closure(typedInsertedObjects) }
+            if !typedInsertedObjects.isEmpty {
+                let typedInsertObservers = insertsObservers
+                    .compactMap { $0.object }
+                    .filter { $0.type == observedType }
+                typedInsertObservers.forEach { $0.closure(typedInsertedObjects) }
+            }
 
             // UPDATES
             let typedUpdatedObjects = cast(changes: changes.updates, as: observedType)
-            let typedUpdateObservers = updatesObservers.compactMap { $0.object }.filter { $0.type == observedType }
-            typedUpdateObservers.forEach { $0.closure(typedUpdatedObjects) }
+            if !typedUpdatedObjects.isEmpty {
+                let typedUpdateObservers = updatesObservers
+                    .compactMap { $0.object }
+                    .filter { $0.type == observedType }
+                typedUpdateObservers.forEach { $0.closure(typedUpdatedObjects) }
+            }
 
             // ALL CHANGES
             let typedAllChangesObservers = allChangeObservers(for: observedType)
@@ -162,18 +158,6 @@ extension CoreDataInteractor {
     private func allChangeObservers(for type: NSManagedObject.Type) -> [AllChangesObserver] {
         return allChangesObservers.compactMap { $0.object }.filter { $0.type == type }
     }
-
-//    private func process(changes: Set<NSManagedObject>, observers: [WeakBox<ChangesObserver>]) {
-//        let changedTypes = uniqueTypes(in: changes)
-//        let registeredTypes = uniqueRegisteredTypes(for: observers)
-//
-//        registeredTypes.forEach { registeredType in
-//            guard changedTypes.contains(type: registeredType) else { return }
-//            let typedChangedObjects = cast(changes: changes, as: registeredType)
-//            let typedObservers = observers.compactMap { $0.object }.filter { $0.type == registeredType }
-//            typedObservers.forEach { $0.closure(typedChangedObjects) }
-//        }
-//    }
 
     private func allUniqueRegisteredTypes() -> [NSManagedObject.Type] {
         var allObservers: [WeakBox<ChangesObserver>] = []

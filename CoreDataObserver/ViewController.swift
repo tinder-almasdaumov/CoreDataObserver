@@ -30,22 +30,22 @@ class ViewController: UIViewController {
     func startNotificationExperiment() {
         fetchedResultsController = nil
 
-        deletesObserver = CoreDataInteractor.shared.observeDeletes(type: Rec.self) { recs in
-            //            print("deletion: \(recs)")
-        }
-
-        insertsObserver = CoreDataInteractor.shared.observeInserts(type: Rec.self) { recs in
-            //            print("insertion: \(recs)")
-        }
-
-        updatesObserver = CoreDataInteractor.shared.observeUpdates(type: Rec.self) { recs in
-            //            print("updates: \(recs)")
-        }
+//        deletesObserver = CoreDataInteractor.shared.observeDeletes(type: Rec.self) { recs in
+//            //            print("deletion: \(recs)")
+//        }
+//
+//        insertsObserver = CoreDataInteractor.shared.observeInserts(type: Rec.self) { recs in
+//            //            print("insertion: \(recs)")
+//        }
+//
+//        updatesObserver = CoreDataInteractor.shared.observeUpdates(type: Rec.self) { recs in
+//            //            print("updates: \(recs)")
+//        }
 
         allChangesObserver = CoreDataInteractor.shared.observeAllChanges(type: Rec.self, closure: { changes in
-//            print(changes.deletes)
-//            print(changes.inserts)
-//            print(changes.updates)
+            //            print(changes.deletes)
+            //            print(changes.inserts)
+            //            print(changes.updates)
         })
 
         final class ChangesObserver {
@@ -58,7 +58,7 @@ class ViewController: UIViewController {
             }
         }
         let start = CFAbsoluteTimeGetCurrent()
-        addEntities(count: 20000)
+        addEntities(count: 10000)
         deleteAll()
 
         let diff = CFAbsoluteTimeGetCurrent() - start
@@ -74,7 +74,7 @@ class ViewController: UIViewController {
         updatesObserver = nil
 
         let start = CFAbsoluteTimeGetCurrent()
-        addEntities(count: 20000)
+        addEntities(count: 10000)
         deleteAll()
 
         let diff = CFAbsoluteTimeGetCurrent() - start
@@ -99,7 +99,6 @@ extension ViewController {
 
 extension ViewController {
     func addEntities(count: Int) {
-//        print(#function)
         for i in 0...count {
             let rec = Rec(context: context)
             rec.first = "\(i) " + UUID().uuidString
@@ -111,7 +110,6 @@ extension ViewController {
     }
 
     func fetchAll() {
-//        print(#function)
         let request: NSFetchRequest<Rec> = Rec.fetchRequest()
 
         if let result = try? context.fetch(request) {
@@ -120,8 +118,6 @@ extension ViewController {
     }
 
     func deleteAll() {
-//        print(#function)
-
         let request: NSFetchRequest<Rec> = Rec.fetchRequest()
 
         if let result = try? context.fetch(request) {

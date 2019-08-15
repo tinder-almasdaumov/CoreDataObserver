@@ -14,7 +14,18 @@
 		4F06917223038B580091A4B0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F06917123038B580091A4B0 /* Assets.xcassets */; };
 		4F06917523038B580091A4B0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F06917323038B580091A4B0 /* LaunchScreen.storyboard */; };
 		4F06918123038C2A0091A4B0 /* CoreDataInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F06918023038C2A0091A4B0 /* CoreDataInteractor.swift */; };
+		4F16AB372304FCAE009F784F /* CoreDataObserverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F16AB362304FCAE009F784F /* CoreDataObserverTests.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		4F16AB392304FCAE009F784F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4F06915C23038B570091A4B0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4F06916323038B570091A4B0;
+			remoteInfo = CoreDataObserver;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		4F06916423038B570091A4B0 /* CoreDataObserver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoreDataObserver.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -26,10 +37,20 @@
 		4F06917423038B580091A4B0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4F06917623038B580091A4B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4F06918023038C2A0091A4B0 /* CoreDataInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataInteractor.swift; sourceTree = "<group>"; };
+		4F16AB342304FCAE009F784F /* CoreDataObserverTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoreDataObserverTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F16AB362304FCAE009F784F /* CoreDataObserverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataObserverTests.swift; sourceTree = "<group>"; };
+		4F16AB382304FCAE009F784F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		4F06916123038B570091A4B0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F16AB312304FCAE009F784F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -43,6 +64,7 @@
 			isa = PBXGroup;
 			children = (
 				4F06916623038B570091A4B0 /* CoreDataObserver */,
+				4F16AB352304FCAE009F784F /* CoreDataObserverTests */,
 				4F06916523038B570091A4B0 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -51,6 +73,7 @@
 			isa = PBXGroup;
 			children = (
 				4F06916423038B570091A4B0 /* CoreDataObserver.app */,
+				4F16AB342304FCAE009F784F /* CoreDataObserverTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -68,6 +91,15 @@
 				4F06918023038C2A0091A4B0 /* CoreDataInteractor.swift */,
 			);
 			path = CoreDataObserver;
+			sourceTree = "<group>";
+		};
+		4F16AB352304FCAE009F784F /* CoreDataObserverTests */ = {
+			isa = PBXGroup;
+			children = (
+				4F16AB362304FCAE009F784F /* CoreDataObserverTests.swift */,
+				4F16AB382304FCAE009F784F /* Info.plist */,
+			);
+			path = CoreDataObserverTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -90,6 +122,24 @@
 			productReference = 4F06916423038B570091A4B0 /* CoreDataObserver.app */;
 			productType = "com.apple.product-type.application";
 		};
+		4F16AB332304FCAE009F784F /* CoreDataObserverTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4F16AB3D2304FCAE009F784F /* Build configuration list for PBXNativeTarget "CoreDataObserverTests" */;
+			buildPhases = (
+				4F16AB302304FCAE009F784F /* Sources */,
+				4F16AB312304FCAE009F784F /* Frameworks */,
+				4F16AB322304FCAE009F784F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4F16AB3A2304FCAE009F784F /* PBXTargetDependency */,
+			);
+			name = CoreDataObserverTests;
+			productName = CoreDataObserverTests;
+			productReference = 4F16AB342304FCAE009F784F /* CoreDataObserverTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -102,6 +152,10 @@
 				TargetAttributes = {
 					4F06916323038B570091A4B0 = {
 						CreatedOnToolsVersion = 10.3;
+					};
+					4F16AB332304FCAE009F784F = {
+						CreatedOnToolsVersion = 10.3;
+						TestTargetID = 4F06916323038B570091A4B0;
 					};
 				};
 			};
@@ -119,6 +173,7 @@
 			projectRoot = "";
 			targets = (
 				4F06916323038B570091A4B0 /* CoreDataObserver */,
+				4F16AB332304FCAE009F784F /* CoreDataObserverTests */,
 			);
 		};
 /* End PBXProject section */
@@ -131,6 +186,13 @@
 				4F06917523038B580091A4B0 /* LaunchScreen.storyboard in Resources */,
 				4F06917223038B580091A4B0 /* Assets.xcassets in Resources */,
 				4F06916D23038B570091A4B0 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F16AB322304FCAE009F784F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -148,7 +210,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4F16AB302304FCAE009F784F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F16AB372304FCAE009F784F /* CoreDataObserverTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		4F16AB3A2304FCAE009F784F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4F06916323038B570091A4B0 /* CoreDataObserver */;
+			targetProxy = 4F16AB392304FCAE009F784F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		4F06916B23038B570091A4B0 /* Main.storyboard */ = {
@@ -322,6 +400,48 @@
 			};
 			name = Release;
 		};
+		4F16AB3B2304FCAE009F784F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9C3Q77AQS3;
+				INFOPLIST_FILE = CoreDataObserverTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.almasdaumov.CoreDataObserverTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CoreDataObserver.app/CoreDataObserver";
+			};
+			name = Debug;
+		};
+		4F16AB3C2304FCAE009F784F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9C3Q77AQS3;
+				INFOPLIST_FILE = CoreDataObserverTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.almasdaumov.CoreDataObserverTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CoreDataObserver.app/CoreDataObserver";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -339,6 +459,15 @@
 			buildConfigurations = (
 				4F06917A23038B580091A4B0 /* Debug */,
 				4F06917B23038B580091A4B0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4F16AB3D2304FCAE009F784F /* Build configuration list for PBXNativeTarget "CoreDataObserverTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4F16AB3B2304FCAE009F784F /* Debug */,
+				4F16AB3C2304FCAE009F784F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
