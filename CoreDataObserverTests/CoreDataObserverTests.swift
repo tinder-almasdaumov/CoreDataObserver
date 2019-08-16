@@ -18,11 +18,9 @@ class CoreDataObserverTests: XCTestCase {
 
     override func setUp() {
         deleteAllUsers()
-
     }
 
-    override func tearDown() {
-    }
+    override func tearDown() {}
 
     func testDeletes() {
         let rec = Rec(context: context)

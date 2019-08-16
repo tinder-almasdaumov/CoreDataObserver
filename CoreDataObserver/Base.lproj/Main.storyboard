@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Experiments-->
+        <!--Performance-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="CoreDataObserver" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="PerformanceTestingViewController" customModule="CoreDataObserver" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -56,7 +56,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Experiments" id="eAc-4V-Xca"/>
+                    <tabBarItem key="tabBarItem" title="Performance" id="eAc-4V-Xca"/>
                     <connections>
                         <outlet property="statusLabel" destination="KNm-tf-B0C" id="gnC-cJ-yp9"/>
                     </connections>
@@ -65,55 +65,118 @@
             </objects>
             <point key="canvasLocation" x="570" y="-635"/>
         </scene>
-        <!--Tests-->
+        <!--Observers-->
         <scene sceneID="ITK-y6-aeL">
             <objects>
-                <viewController id="901-ne-CN2" customClass="TestsViewController" customModule="CoreDataObserver" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="901-ne-CN2" customClass="ObserversTestingViewController" customModule="CoreDataObserver" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Tdb-6U-LFd">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Cu-19-63H">
-                                <rect key="frame" x="8" y="110" width="62" height="30"/>
-                                <state key="normal" title="Add user"/>
-                                <connections>
-                                    <action selector="addUsers" destination="901-ne-CN2" eventType="touchUpInside" id="FfY-kh-pns"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qgW-80-SGz">
-                                <rect key="frame" x="8" y="160" width="54" height="30"/>
-                                <state key="normal" title="Add rec"/>
-                                <connections>
-                                    <action selector="addRecs" destination="901-ne-CN2" eventType="touchUpInside" id="9Sr-CB-aEv"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jKi-Ym-Mo0">
-                                <rect key="frame" x="8" y="784.5" width="398" height="20.5"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="IPF-Fo-oR7">
+                                <rect key="frame" x="124" y="124" width="166" height="70"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="9Kc-wh-A83">
+                                        <rect key="frame" x="0.0" y="0.0" width="40" height="70"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bzq-TZ-8FN">
+                                                <rect key="frame" x="0.0" y="0.0" width="40" height="30"/>
+                                                <state key="normal" title="Insert"/>
+                                                <connections>
+                                                    <action selector="insertUser" destination="901-ne-CN2" eventType="touchUpInside" id="VF9-vL-gsp"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j8j-6M-de3">
+                                                <rect key="frame" x="0.0" y="40" width="40" height="30"/>
+                                                <state key="normal" title="Insert"/>
+                                                <connections>
+                                                    <action selector="insertRec" destination="901-ne-CN2" eventType="touchUpInside" id="XD1-iZ-8cv"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="UUB-pB-MXn">
+                                        <rect key="frame" x="55" y="0.0" width="45" height="70"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1HR-fv-n6N">
+                                                <rect key="frame" x="0.0" y="0.0" width="45" height="30"/>
+                                                <state key="normal" title="Delete"/>
+                                                <connections>
+                                                    <action selector="deleteUser" destination="901-ne-CN2" eventType="touchUpInside" id="xMK-QY-e3i"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9vj-qY-JZO">
+                                                <rect key="frame" x="0.0" y="40" width="45" height="30"/>
+                                                <state key="normal" title="Delete"/>
+                                                <connections>
+                                                    <action selector="deleteRec" destination="901-ne-CN2" eventType="touchUpInside" id="yQx-J7-jKo"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="wh4-kp-gei">
+                                        <rect key="frame" x="115" y="0.0" width="51" height="70"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LP2-vK-JyN">
+                                                <rect key="frame" x="0.0" y="0.0" width="51" height="30"/>
+                                                <state key="normal" title="Update"/>
+                                                <connections>
+                                                    <action selector="updateUser" destination="901-ne-CN2" eventType="touchUpInside" id="CJ4-f8-s3A"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XGV-4h-6Oj">
+                                                <rect key="frame" x="0.0" y="40" width="51" height="30"/>
+                                                <state key="normal" title="Update"/>
+                                                <connections>
+                                                    <action selector="updateRec" destination="901-ne-CN2" eventType="touchUpInside" id="ItE-8S-XnV"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KwC-3H-JUA">
+                                <rect key="frame" x="53.5" y="129" width="36.5" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rec" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5D2-Hv-Orc">
+                                <rect key="frame" x="61" y="169" width="29" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="6Oz-ex-FhR">
+                                <rect key="frame" x="0.0" y="239" width="414" height="574"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="2eN-uM-M7x" firstAttribute="trailing" secondItem="jKi-Ym-Mo0" secondAttribute="trailing" constant="8" id="7Og-sK-1iN"/>
-                            <constraint firstItem="jKi-Ym-Mo0" firstAttribute="leading" secondItem="2eN-uM-M7x" secondAttribute="leading" constant="8" id="7r8-XH-L1r"/>
-                            <constraint firstItem="0Cu-19-63H" firstAttribute="leading" secondItem="2eN-uM-M7x" secondAttribute="leading" constant="8" id="PPL-iD-TAx"/>
-                            <constraint firstItem="0Cu-19-63H" firstAttribute="top" secondItem="2eN-uM-M7x" secondAttribute="top" constant="66" id="oQS-dg-ES9"/>
-                            <constraint firstItem="qgW-80-SGz" firstAttribute="top" secondItem="0Cu-19-63H" secondAttribute="bottom" constant="20" id="sRl-tM-cpI"/>
-                            <constraint firstItem="qgW-80-SGz" firstAttribute="leading" secondItem="2eN-uM-M7x" secondAttribute="leading" constant="8" id="wWA-it-0OC"/>
-                            <constraint firstItem="2eN-uM-M7x" firstAttribute="bottom" secondItem="jKi-Ym-Mo0" secondAttribute="bottom" constant="8" id="wZ6-MU-Lno"/>
+                            <constraint firstItem="5D2-Hv-Orc" firstAttribute="centerY" secondItem="j8j-6M-de3" secondAttribute="centerY" id="5Wi-1S-O0O"/>
+                            <constraint firstItem="IPF-Fo-oR7" firstAttribute="top" secondItem="2eN-uM-M7x" secondAttribute="top" constant="80" id="H67-G1-avc"/>
+                            <constraint firstItem="6Oz-ex-FhR" firstAttribute="top" secondItem="IPF-Fo-oR7" secondAttribute="bottom" constant="45" id="PBQ-qk-yTF"/>
+                            <constraint firstItem="Bzq-TZ-8FN" firstAttribute="leading" secondItem="KwC-3H-JUA" secondAttribute="trailing" constant="34" id="Qbb-1Y-HhK"/>
+                            <constraint firstItem="IPF-Fo-oR7" firstAttribute="centerX" secondItem="2eN-uM-M7x" secondAttribute="centerX" id="UGc-bn-cty"/>
+                            <constraint firstItem="6Oz-ex-FhR" firstAttribute="leading" secondItem="2eN-uM-M7x" secondAttribute="leading" id="h6h-pX-Fiz"/>
+                            <constraint firstItem="IPF-Fo-oR7" firstAttribute="leading" secondItem="5D2-Hv-Orc" secondAttribute="trailing" constant="34" id="myH-39-VIf"/>
+                            <constraint firstItem="6Oz-ex-FhR" firstAttribute="bottom" secondItem="2eN-uM-M7x" secondAttribute="bottom" id="qrU-0M-i3U"/>
+                            <constraint firstItem="KwC-3H-JUA" firstAttribute="centerY" secondItem="Bzq-TZ-8FN" secondAttribute="centerY" id="tXh-ux-fB6"/>
+                            <constraint firstItem="6Oz-ex-FhR" firstAttribute="trailing" secondItem="2eN-uM-M7x" secondAttribute="trailing" id="zWi-JD-NH2"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="2eN-uM-M7x"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Tests" id="WZb-KR-JHe"/>
+                    <tabBarItem key="tabBarItem" title="Observers" id="WZb-KR-JHe"/>
                     <connections>
-                        <outlet property="label" destination="jKi-Ym-Mo0" id="M1J-XZ-agR"/>
+                        <outlet property="textView" destination="6Oz-ex-FhR" id="c8P-en-66f"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cDu-0s-5h4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="570" y="164"/>
+            <point key="canvasLocation" x="569.56521739130437" y="163.39285714285714"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="lHb-am-yCR">

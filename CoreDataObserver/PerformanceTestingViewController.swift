@@ -9,14 +9,14 @@
 import UIKit
 import CoreData
 
-class ViewController: UIViewController {
+class PerformanceTestingViewController: UIViewController {
 
     let context = CoreDataInteractor.shared.context
 
     var fetchedResultsController: NSFetchedResultsController<Rec>?
 
     var deletesObserver: AnyObject?
-    var insertsObserver: AnyObject?
+    var insertsObserver: AnyObject? 
     var updatesObserver: AnyObject?
     var allChangesObserver: AnyObject?
 
@@ -69,7 +69,7 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController {
+extension PerformanceTestingViewController {
     func configureFetchResultsController(){
         let sortDescriptor = NSSortDescriptor(key: "first", ascending: true)
         let fetchRequest: NSFetchRequest<Rec> = NSFetchRequest(entityName: "Rec")
@@ -84,7 +84,7 @@ extension ViewController {
     }
 }
 
-private extension ViewController {
+private extension PerformanceTestingViewController {
     func addRecs(count: Int) {
         for i in 0..<count {
             let rec = Rec(context: context)
@@ -115,7 +115,7 @@ private extension ViewController {
     }
 }
 
-extension ViewController: NSFetchedResultsControllerDelegate {
+extension PerformanceTestingViewController: NSFetchedResultsControllerDelegate {
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
                     didChange sectionInfo: NSFetchedResultsSectionInfo,
                     atSectionIndex sectionIndex: Int,
