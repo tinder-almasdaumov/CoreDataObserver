@@ -57,7 +57,7 @@ class ObserversTestingViewController: UIViewController {
             self.log(text: "\nUser inserts: \(users.count)")
         }
 
-        userUpdatesObserver = CoreDataInteractor.shared.observeDeletes(type: User.self) { users in
+        userUpdatesObserver = CoreDataInteractor.shared.observeUpdates(type: User.self) { users in
             self.log(text: "\nUser updates: \(users.count)")
         }
 
