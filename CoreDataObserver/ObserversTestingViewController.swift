@@ -165,4 +165,30 @@ extension ObserversTestingViewController {
         }
     }
 
+    @IBAction func insertRecInBackground() {
+        DispatchQueue.global().async {
+            let bContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+            bContext.parent = self.context
+
+            let rec = Rec(context: bContext)
+            rec.first = UUID().uuidString
+            rec.last = UUID().uuidString
+            rec.title = UUID().uuidString
+            try? bContext.save()
+        }
+    }
+
+    @IBAction func deleteRecInBackground() {
+        DispatchQueue.global().async {
+            let bContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+            bContext.parent = self.context
+
+            let request: NSFetchRequest<Rec> = .init(entityName: "Rec")
+            request.fetchLimit = 1
+            if let rec = try? bContext.fetch(request).first {
+                bContext.delete(rec)
+                try? bContext.save()
+            }
+        }
+    }
 }
